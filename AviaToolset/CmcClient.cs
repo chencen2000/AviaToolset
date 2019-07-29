@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -10,6 +12,86 @@ namespace AviaToolset
 {
     class CmcClient
     {
+        public static int sendTransactionToVerizon(System.Collections.Specialized.StringDictionary args)
+        {
+            int ret = -1;
+            Program.logIt("sendTransactionToVerizon: ++");
+            string avia_dir = System.IO.Path.Combine(System.Environment.GetEnvironmentVariable("FDHOME"), "AVIA");
+            string tool = System.IO.Path.Combine(avia_dir, "hydra", "hydraTransaction.exe");
+            Dictionary<string, object> data = null;
+            string url = args.ContainsKey("verizonurl") ? args["verizonurl"] : "";
+            if (args.ContainsKey("json") && System.IO.File.Exists(args["json"]))
+            {
+                try
+                {
+                    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+                    data = jss.Deserialize<Dictionary<string, object>>(System.IO.File.ReadAllText(args["json"]));
+                }
+                catch (Exception ex)
+                {
+                    Program.logIt($"sendTransaction: {ex.Message}");
+                    ret = 1;
+                }
+            }
+            if (!string.IsNullOrEmpty(url) && data != null && System.IO.File.Exists(tool) && System.IO.File.Exists(System.IO.Path.Combine(avia_dir, "config.ini")))
+            {
+                utility.IniFile config = new utility.IniFile(System.IO.Path.Combine(avia_dir, "config.ini"));
+                if (System.IO.File.Exists(tool))
+                {
+                    var ms = new MemoryStream();
+                    XmlWriterSettings settings = new XmlWriterSettings();
+                    settings.Indent = true;
+                    using (XmlWriter xmlWriter = XmlWriter.Create(ms, settings))
+                    {
+                        xmlWriter.WriteStartDocument();
+                        xmlWriter.WriteStartElement("root");
+                        xmlWriter.WriteElementString("ESN", data.ContainsKey("Index") ? data["Index"].ToString() : "1234567890");
+                        xmlWriter.WriteElementString("ProcessingStation", System.Environment.MachineName);
+                        xmlWriter.WriteStartElement("AutomationResult");
+                        xmlWriter.WriteStartElement("TRANDATA");
+                        xmlWriter.WriteElementString("HEXESN", data.ContainsKey("Index") ? data["Index"].ToString() : "1234567890");
+                        int error_code = 1;
+                        if (data.ContainsKey("Grade"))
+                        {
+                            error_code = 1;
+                            xmlWriter.WriteElementString("GRADE", data.ContainsKey("Grade").ToString());
+                        }
+                        else
+                        {
+                            xmlWriter.WriteElementString("GRADE", "Fail");
+                            error_code = 0;
+                        }
+                        xmlWriter.WriteElementString("CRACK", "");
+                        xmlWriter.WriteElementString("POWER", "");
+                        xmlWriter.WriteElementString("RESULT", error_code==1? "PASS": "FAIL");
+                        xmlWriter.WriteElementString("TIMESTAMP", DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss"));
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteEndDocument();
+                        xmlWriter.Flush();
+                        xmlWriter.Close();
+                    }
+                    try
+                    {
+                        Program.logIt($"try to send transaction to url: {url}");
+                        WebClient wc = new WebClient();
+                        byte[] res = wc.UploadData(url, ms.ToArray());
+                        string s = System.Text.Encoding.UTF8.GetString(res);
+                        Program.logIt($" to send transaction to url: {url}");
+                    }
+                    catch(Exception ex)
+                    {
+                        Program.logIt(ex.Message);
+                        Program.logIt(ex.StackTrace);
+                    }
+
+                    ret = 0;
+                }
+            }
+            Program.logIt($"sendTransactionToVerizon: -- ret={ret}");
+            return ret;
+        }
         public static int sendTransaction(System.Collections.Specialized.StringDictionary args)
         {
             int ret = -1;
@@ -33,6 +115,15 @@ namespace AviaToolset
             if (data != null && System.IO.File.Exists(tool) && System.IO.File.Exists(System.IO.Path.Combine(avia_dir,"config.ini")))
             {
                 utility.IniFile config = new utility.IniFile(System.IO.Path.Combine(avia_dir, "config.ini"));
+                string vzw_url = config.GetString("avia", "verizonurl", "");
+                if (!string.IsNullOrEmpty(vzw_url))
+                {
+                    // send transaction to verizon interface.
+                    if (!args.ContainsKey("verizonurl"))
+                        args.Add("verizonurl", vzw_url);
+                    sendTransactionToVerizon(args);
+                }
+
                 if (System.IO.File.Exists(tool))
                 {
                     XmlWriterSettings settings = new XmlWriterSettings();

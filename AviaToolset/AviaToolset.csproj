@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="data\Auto Grading API Communication Document.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.txt" />
