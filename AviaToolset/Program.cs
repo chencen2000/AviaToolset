@@ -23,8 +23,8 @@ namespace AviaToolset
             }
             if (_args.IsParameterTrue("transaction"))
             {
-                //ret = CmcClient.sendTransaction(_args.Parameters);
-                ret = CmcClient.sendTransactionToVerizon(_args.Parameters);
+                ret = CmcClient.sendTransaction(_args.Parameters);
+                //ret = CmcClient.sendTransactionToVerizon(_args.Parameters);
             }
             return ret;
         }
