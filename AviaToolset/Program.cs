@@ -26,6 +26,15 @@ namespace AviaToolset
                 ret = CmcClient.sendTransaction(_args.Parameters);
                 //ret = CmcClient.sendTransactionToVerizon(_args.Parameters);
             }
+            else if (_args.IsParameterTrue("login"))
+            {
+                ret = CmcClient.cmc_login(_args.Parameters);
+            }
+            else
+            {
+
+            }
+
             return ret;
         }
     }

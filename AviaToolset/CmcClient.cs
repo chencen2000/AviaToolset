@@ -185,5 +185,52 @@ namespace AviaToolset
             Program.logIt($"sendTransaction: -- ret={ret}");
             return ret;
         }
+        public static int cmc_login(System.Collections.Specialized.StringDictionary args)
+        {
+            int ret = -1;
+            Program.logIt("cmc_login: ++");
+            string avia_dir = System.IO.Path.Combine(System.Environment.GetEnvironmentVariable("FDHOME"), "AVIA");
+            string tool = System.IO.Path.Combine(avia_dir, "hydra", "hydralogin.exe");
+            string xml_file = System.IO.Path.Combine(avia_dir, "hydra", "hydralogin.xml");
+            utility.IniFile config = new utility.IniFile(System.IO.Path.Combine(avia_dir, "config.ini"));
+            if (System.IO.File.Exists(tool) && args.ContainsKey("u") && args.ContainsKey("p"))
+            {
+                try
+                {
+                    System.IO.File.Delete(xml_file);
+                }
+                catch (Exception) { }
+                Process p = new Process();
+                p.StartInfo.FileName = tool;
+                p.StartInfo.Arguments = $"-u={args["u"]} -p={args["p"]}";
+                p.StartInfo.CreateNoWindow = true;
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                p.StartInfo.Environment.Add("APSTHOME", avia_dir);
+                p.Start();
+                p.WaitForExit();
+                //ret = p.ExitCode;
+                if (p.ExitCode == 0 && System.IO.File.Exists(xml_file))
+                {
+                    // parse hydralogin xml
+                    XmlDocument xml = new XmlDocument();
+                    try
+                    {
+                        xml.Load(xml_file);
+                        if (xml.DocumentElement != null)
+                        {
+                            if (xml.DocumentElement["id"] != null)
+                            {
+                                config.WriteValue("config", "userid", xml.DocumentElement["id"].InnerText);
+                                ret = 0;
+                            }
+                        }
+                    }
+                    catch (Exception) { }
+                }
+            }
+            Program.logIt($"cmc_login: -- ret={ret}");
+            return ret;
+        }
     }
 }
