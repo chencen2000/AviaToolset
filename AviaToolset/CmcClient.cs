@@ -143,7 +143,7 @@ namespace AviaToolset
                         xmlWriter.WriteElementString("sourceMake", "Apple");
                         xmlWriter.WriteElementString("sourceModel", data.ContainsKey("ModelName") ? data["ModelName"].ToString() : "");
                         xmlWriter.WriteElementString("esnNumber", data.ContainsKey("Index") ? data["Index"].ToString() : "1234567890");
-                        xmlWriter.WriteElementString("StartTime", data.ContainsKey("InspectionTime") ? data["InspectionTime"].ToString() : "");
+                        xmlWriter.WriteElementString("StartTime", data.ContainsKey("InspectionTime") ? data["InspectionTime"].ToString() : DateTime.Now.ToString("G"));
                         xmlWriter.WriteElementString("CriteriaFileName", data.ContainsKey("CriteriaFileName") ? System.IO.Path.GetFileName(data["CriteriaFileName"].ToString()) : "");
                         int error_code = 1;
                         if (data.ContainsKey("Grade"))
@@ -156,7 +156,7 @@ namespace AviaToolset
                             error_code = 0;
                         }
                         xmlWriter.WriteElementString("errorCode", error_code.ToString());
-                        xmlWriter.WriteElementString("timeCreated", DateTime.Now.ToString("o"));
+                        xmlWriter.WriteElementString("timeCreated", DateTime.Now.ToString("G"));
                         xmlWriter.WriteEndElement();
                         xmlWriter.WriteEndElement();
                         xmlWriter.WriteEndDocument();
