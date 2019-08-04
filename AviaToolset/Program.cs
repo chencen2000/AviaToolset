@@ -30,6 +30,10 @@ namespace AviaToolset
             {
                 ret = CmcClient.cmc_login(_args.Parameters);
             }
+            else if (_args.IsParameterTrue("prepareEnv"))
+            {
+                ret = PrepareEnv.startup(_args.Parameters);
+            }
             else
             {
 

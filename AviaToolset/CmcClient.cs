@@ -62,7 +62,7 @@ namespace AviaToolset
                             error_code = 0;
                         }
                         xmlWriter.WriteElementString("CRACK", "");
-                        xmlWriter.WriteElementString("POWER", "");
+                        xmlWriter.WriteElementString("POWER", "TRUE");
                         xmlWriter.WriteElementString("RESULT", error_code==1? "PASS": "FAIL");
                         xmlWriter.WriteElementString("TIMESTAMP", DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss"));
                         xmlWriter.WriteEndElement();
@@ -206,7 +206,7 @@ namespace AviaToolset
                 p.StartInfo.CreateNoWindow = true;
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                p.StartInfo.Environment.Add("APSTHOME", avia_dir);
+                p.StartInfo.EnvironmentVariables.Add("APSTHOME", avia_dir);
                 p.Start();
                 p.WaitForExit();
                 //ret = p.ExitCode;
