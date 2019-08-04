@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace AviaToolset
         {
             System.Diagnostics.Trace.WriteLine($"[AviaToolset]: {msg}");
         }
+        [STAThread]
         static int Main(string[] args)
         {
             int ret = -1;
@@ -34,12 +36,43 @@ namespace AviaToolset
             {
                 ret = PrepareEnv.startup(_args.Parameters);
             }
+            else if (_args.IsParameterTrue("oecontrol"))
+            {
+                OEControl.OE_App_3_0_2_0();
+            }
             else
             {
-
+                //test();
+                //OEControl.start();
             }
 
             return ret;
+        }
+
+        static void test()
+        {
+            Process p = null;
+            try
+            {
+                utility.IniFile config = new utility.IniFile(System.IO.Path.Combine(System.Environment.GetEnvironmentVariable("FDHOME"), "Avia", "AviaDevice.ini"));
+                string app = config.GetString("config", "ui", "");
+                if (System.IO.File.Exists(app))
+                {
+                    p = new Process();
+                    p.StartInfo.FileName = app;
+                    p.StartInfo.UseShellExecute = true;
+                    p.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(app);
+                    p.Start();
+                }
+            }
+            catch (Exception)
+            {
+                p = null;
+            }
+            if (p != null)
+            {
+                p.WaitForInputIdle();
+            }
         }
     }
 }
