@@ -11,6 +11,7 @@ namespace AviaToolset
 {
     class OEControl : ApplicationContext
     {
+        const string EVENT_NAME = "OEAPPRUNNING";
         #region win32 APIs
         const int WM_KEYDOWN = 0x100;
         const int WM_KEYUP = 0x101;
@@ -169,7 +170,7 @@ namespace AviaToolset
             }
             return ret.ToArray();
         }
-        public static void OE_App_3_0_2_0()
+        public static void OE_App_3_0_2_0(System.Threading.EventWaitHandle evt)
         {
             Program.logIt("OE_App_3_0_2_0: ++");
             Process app = start_app();
@@ -185,7 +186,18 @@ namespace AviaToolset
                 PostMessage(app.MainWindowHandle, WM_COMMAND, 0x3c, 0);
                 IntPtr topWnd = GetDesktopWindow();
                 Program.logIt($"OE_App_3_0_2_0: desktop Wnd: {topWnd}");
+                evt.WaitOne();
+                Program.logIt($"OE_App_3_0_2_0: recv terminate event.");
+                app.Refresh();
+                Program.logIt($"OE_App_3_0_2_0: send message to {app.MainWindowTitle}({app.MainWindowHandle}), 0x111,0x3d,0");
+                PostMessage(app.MainWindowHandle, WM_COMMAND, 0x3d, 0);
+                System.Threading.Thread.Sleep(5000);
+                app.CloseMainWindow();
+                app.WaitForExit(3000);
+                if (!app.HasExited)
+                    app.Kill();
             }
+            Program.logIt("OE_App_3_0_2_0: --");
         }
 
         public static void OE_App_3_0_2_0_2()
@@ -277,7 +289,7 @@ namespace AviaToolset
         {
             Task t = Task.Run(() => 
             {
-                OEControl.OE_App_3_0_2_0();                
+                //OEControl.OE_App_3_0_2_0();                
             });
             t.ContinueWith(_ =>{
                 Program.logIt("OE_App_3_0_2_0: will be terminate.");
@@ -285,10 +297,38 @@ namespace AviaToolset
             });
             //
         }
-        [STAThread]
-        public static void start()
+        public static void startup(System.Collections.Specialized.StringDictionary args)
         {
-            Application.Run(new OEControl());
+            Program.logIt("OEControl::startup: ++");
+            if (args.ContainsKey("start"))
+            {
+                bool own;
+                System.Threading.EventWaitHandle evt = new System.Threading.EventWaitHandle(false, System.Threading.EventResetMode.AutoReset, EVENT_NAME, out own);
+                if (!own)
+                {
+                    // OE app already running.
+                    Program.logIt("OEControl::startup: app already running");
+                }
+                else
+                {
+                    OEControl.OE_App_3_0_2_0(evt);
+                }
+            }
+            else if (args.ContainsKey("stop"))
+            {
+                try
+                {
+                    System.Threading.EventWaitHandle evt = System.Threading.EventWaitHandle.OpenExisting(EVENT_NAME);
+                    evt.Set();
+                }
+                catch (Exception) { }
+            }
+            Program.logIt("OEControl::startup: --");
+        }
+        [STAThread]
+        public static void start(System.Collections.Specialized.StringDictionary args)
+        {
+            //Application.Run(new OEControl());
         }
     }
 }

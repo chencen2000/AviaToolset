@@ -38,7 +38,8 @@ namespace AviaToolset
             }
             else if (_args.IsParameterTrue("oecontrol"))
             {
-                OEControl.OE_App_3_0_2_0();
+                //OEControl.OE_App_3_0_2_0();
+                OEControl.startup(_args.Parameters);
             }
             else
             {
