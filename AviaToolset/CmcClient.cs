@@ -154,7 +154,7 @@ namespace AviaToolset
                             xmlWriter.WriteElementString("grade", s);
                             if (string.IsNullOrEmpty(s))
                                 s = "D";
-                            ini.WriteValue("device", "grade", data["Grade"].ToString());
+                            ini.WriteValue("device", "grade", s);
                         }
                         else
                         {
