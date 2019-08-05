@@ -156,6 +156,7 @@ namespace AviaToolset
                         else
                         {
                             error_code = 0;
+                            ini.WriteValue("device", "grade", "D");
                         }
                         xmlWriter.WriteElementString("errorCode", error_code.ToString());
                         xmlWriter.WriteElementString("timeCreated", DateTime.Now.ToString("G"));
