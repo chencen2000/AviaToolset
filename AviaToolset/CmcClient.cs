@@ -95,7 +95,7 @@ namespace AviaToolset
         public static int sendTransaction(System.Collections.Specialized.StringDictionary args)
         {
             int ret = -1;
-            Program.logIt("sendTransaction: ++");
+            Program.logIt($"sendTransaction: ++ {args["json"]}");
             string avia_dir = System.IO.Path.Combine(System.Environment.GetEnvironmentVariable("FDHOME"), "AVIA");
             string tool = System.IO.Path.Combine(avia_dir, "hydra", "hydraTransaction.exe");
             utility.IniFile ini = new utility.IniFile(System.IO.Path.Combine(avia_dir, "AviaDevice.ini"));
