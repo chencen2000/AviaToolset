@@ -150,7 +150,10 @@ namespace AviaToolset
                         if (data.ContainsKey("Grade"))
                         {
                             error_code = 1;
-                            xmlWriter.WriteElementString("grade", data.ContainsKey("Grade") ? data["Grade"].ToString() : "");
+                            string s = data["Grade"].ToString();
+                            xmlWriter.WriteElementString("grade", s);
+                            if (string.IsNullOrEmpty(s))
+                                s = "D";
                             ini.WriteValue("device", "grade", data["Grade"].ToString());
                         }
                         else
