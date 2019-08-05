@@ -98,6 +98,7 @@ namespace AviaToolset
             Program.logIt("sendTransaction: ++");
             string avia_dir = System.IO.Path.Combine(System.Environment.GetEnvironmentVariable("FDHOME"), "AVIA");
             string tool = System.IO.Path.Combine(avia_dir, "hydra", "hydraTransaction.exe");
+            utility.IniFile ini = new utility.IniFile(System.IO.Path.Combine(avia_dir, "AviaDevice.ini"));
             Dictionary<string, object> data = null;
             if (args.ContainsKey("json") && System.IO.File.Exists(args["json"]))
             {
@@ -150,6 +151,7 @@ namespace AviaToolset
                         {
                             error_code = 1;
                             xmlWriter.WriteElementString("grade", data.ContainsKey("Grade") ? data["Grade"].ToString() : "");
+                            ini.WriteValue("device", "grade", data["Grade"].ToString());
                         }
                         else
                         {
