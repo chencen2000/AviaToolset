@@ -109,8 +109,8 @@ namespace AviaToolset
             Process p = null;
             try
             {
-                utility.IniFile config = new utility.IniFile(System.IO.Path.Combine(System.Environment.GetEnvironmentVariable("FDHOME"), "Avia", "AviaDevice.ini"));
-                string app = config.GetString("config", "ui", "");
+                utility.IniFile config = new utility.IniFile(System.IO.Path.Combine(System.Environment.GetEnvironmentVariable("FDHOME"), "Avia", "config.ini"));
+                string app = System.IO.Path.GetFullPath(config.GetString("ui", "app", ""));
                 if (System.IO.File.Exists(app))
                 {
                     // check if the app running.
@@ -119,6 +119,7 @@ namespace AviaToolset
                     {
                         p = new Process();
                         p.StartInfo.FileName = app;
+                        p.StartInfo.Arguments = "-ControlMode";
                         p.StartInfo.UseShellExecute = true;
                         p.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(app);
                         p.Start();
@@ -329,6 +330,7 @@ namespace AviaToolset
         public static void start(System.Collections.Specialized.StringDictionary args)
         {
             //Application.Run(new OEControl());
+            start_app();
         }
     }
 }
