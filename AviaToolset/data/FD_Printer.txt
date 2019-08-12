@@ -1,0 +1,111 @@
+FD_Manufactory	-	/labelinfo/device/maker
+
+FD_PhoneName	-	/labelinfo/runtime/model
+		-	/labelinfo/device/model
+
+FD_MEID_IMEI	-	/labelinfo/runtime/meid
+		-	/labelinfo/device/meid_imei
+/*FD_BarPicture*/
+
+FD_MemorySize	-	/labelinfo/runtime/memory
+
+FD_CarrierInfo	-	/labelinfo/runtime/carrier
+		-	/labelinfo/device/carrier
+
+FD_SerialNumber	-	/labelinfo/runtime/serialnumber
+FD_SerialNumberText (only work with FD_SNBarCode)
+
+FD_Ro_SerialNo	-	/labelinfo/runtime/ro_serialno
+FD_Ro_SerialNoText (only work with FD_Ro_SNBarCode)
+
+FD_Ril_SerialNumber -	/labelinfo/runtime/ril_serialnumber
+FD_Ril_SerialNumberText (only work with FD_Ril_SNBarCode)
+
+FD_RegionInfo	-	/labelinfo/runtime/region
+
+FD_PhoneModel	-	/labelinfo/device/modelnumber
+		-	/labelinfo/runtime/modelnumber
+FD_ModelNumberText -	/labelinfo/runtime/modelnumber
+		-	(only work with FD_ModelNumberBarCode)
+
+FD_DeviceColor	-	/labelinfo/runtime/color
+
+FD_FindMyiPhone	-	/labelinfo/runtime/FindMyiPhone
+
+FD_iCloudInfo	-	/labelinfo/runtime/iCloud
+
+FD_BarPicture	-	/labelinfo/runtime/barcodeprinter
+		-	/labelinfo/runtime/barcode
+
+FD_SNBarCode	-	/labelinfo/runtime/serialnumber
+
+FD_Ro_SNBarCode -	/labelinfo/runtime/ro_serialno
+
+FD_Ril_SNBarCode-	/labelinfo/runtime/ril_serialnumber
+
+FD_MacAddrBarCode-	/labelinfo/runtime/macaddr
+FD_MacAddrNoColonBarCode
+
+FD_MEIDBarCode	-	/labelinfo/runtime/fd_meid
+
+FD_IMEIBarCode	-	/labelinfo/runtime/fd_imei
+
+FD_ModelNumberBarCode - /labelinfo/runtime/modelnumber
+
+FD_MEID		-	/labelinfo/runtime/fd_meid
+FD_MEIDText (only work with FD_MEIDBarCode)
+
+FD_IMEI		-	/labelinfo/runtime/fd_imei
+FD_IMEIText (only work with FD_IMEIBarCode)
+
+FD_MacAddr	-	/labelinfo/runtime/macaddr
+FD_MacAddrText (only work with FD_MacAddrBarCode)
+FD_MacAddrNoColon
+FD_MacAddrNoColonText (only work with FD_MacAddrBarCode)
+
+FD_PhoneNumberText	(only work with FD_PhoneNumberBarCode)
+FD_PhoneNumberBarCode	-	/labelinfo/runtime/phonenumber
+
+FD_iccidText	(only work with FD_iccidBarCode)
+FD_iccidBarCode			-	/labelinfo/runtime/iccidValue
+
+FD_TransactionDate -	/labelinfo/runtime/startTime
+
+FD_SpendTime	-	/labelinfo/runtime/time
+
+//-------------svg method only----------------------------
+FD_Result	-	/labelinfo/runtime/errorcode
+(1 --- Success, other --- Fail)
+
+
+
+
+//-------------Code ID----------------------------
+ 1: Code 11           51: Pharma One-Track         90: KIX Code
+ 2: Standard 2of5     52: PZN                      92: Aztec Code
+ 3: Interleaved 2of5  53: Pharma Two-Track         93: DAFT Code
+ 4: IATA 2of5         55: PDF417                   97: Micro QR Code
+ 6: Data Logic        56: PDF417 Trunc             98: HIBC Code 128
+ 7: Industrial 2of5   57: Maxicode                 99: HIBC Code 39
+ 8: Code 39           58: QR Code                 102: HIBC Data Matrix
+ 9: Extended Code 39  60: Code 128-B              104: HIBC QR Code
+13: EAN               63: AP Standard Customer    106: HIBC PDF417
+16: GS1-128           66: AP Reply Paid           108: HIBC MicroPDF417
+18: Codabar           67: AP Routing              112: HIBC Aztec Code
+20: Code 128          68: AP Redirection          128: Aztec Runes
+21: Leitcode          69: ISBN                    129: Code 23
+22: Identcode         70: RM4SCC                  130: Comp EAN
+23: Code 16k          71: Data Matrix             131: Comp GS1-128
+24: Code 49           72: EAN-14                  132: Comp Databar-14
+25: Code 93           75: NVE-18                  133: Comp Databar Ltd
+28: Flattermarken     76: Japanese Post           134: Comp Databar Ext
+29: Databar-14        77: Korea Post              135: Comp UPC-A
+30: Databar Limited   79: Databar-14 Stack        136: Comp UPC-E
+31: Databar Extended  80: Databar-14 Stack Omni   137: Comp Databar-14 Stack
+32: Telepen Alpha     81: Databar Extended Stack  138: Comp Databar Stack Omni
+34: UPC-A             82: Planet                  139: Comp Databar Ext Stack
+37: UPC-E             84: MicroPDF                140: Channel Code
+40: Postnet           85: USPS OneCode            141: Code One
+47: MSI Plessey       86: UK Plessey              142: Grid Matrix
+49: FIM               87: Telepen Numeric
+50: Logmars           89: ITF-14

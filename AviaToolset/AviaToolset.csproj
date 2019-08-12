@@ -62,6 +62,7 @@
     <None Include="data\Auto Grading API Communication Document.pdf" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="data\FD_Printer.txt" />
     <Content Include="readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

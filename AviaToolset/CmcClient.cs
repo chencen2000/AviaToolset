@@ -116,6 +116,10 @@ namespace AviaToolset
             if (data != null && System.IO.File.Exists(tool) && System.IO.File.Exists(System.IO.Path.Combine(avia_dir,"config.ini")))
             {
                 utility.IniFile config = new utility.IniFile(System.IO.Path.Combine(avia_dir, "config.ini"));
+
+                // save label.xml
+                prepare_label_xml(config, data);
+
                 string vzw_url = config.GetString("avia", "verizonurl", "");
                 if (!string.IsNullOrEmpty(vzw_url))
                 {
@@ -190,6 +194,36 @@ namespace AviaToolset
             }
             Program.logIt($"sendTransaction: -- ret={ret}");
             return ret;
+        }
+        static void prepare_label_xml(utility.IniFile config, Dictionary<string,object> data, string labelname="label.xml")
+        {
+            string fn = System.IO.Path.Combine(System.Environment.GetEnvironmentVariable("FDHOME"), "AVIA", labelname);
+            try
+            {
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Indent = true;
+                using (XmlWriter xmlWriter = XmlWriter.Create(fn, settings))
+                {
+                    xmlWriter.WriteStartDocument();
+                    xmlWriter.WriteStartElement("labelinfo");
+                    xmlWriter.WriteStartElement("label");
+                    xmlWriter.WriteEndElement();
+                    xmlWriter.WriteStartElement("device");
+                    xmlWriter.WriteElementString("meid_imei", data.ContainsKey("Index") ? data["Index"].ToString() : "1234567890");
+                    xmlWriter.WriteElementString("modelnumber", data.ContainsKey("ModelName") ? data["ModelName"].ToString() : "");
+                    xmlWriter.WriteEndElement();
+                    xmlWriter.WriteStartElement("runtime");
+                    xmlWriter.WriteElementString("iCloud", data.ContainsKey("Grade") ? data["Grade"].ToString() : "");
+                    xmlWriter.WriteElementString("meid", data.ContainsKey("Index") ? data["Index"].ToString() : "1234567890");
+                    xmlWriter.WriteElementString("modelnumber", data.ContainsKey("ModelName") ? data["ModelName"].ToString() : "");
+                    xmlWriter.WriteEndElement();
+                    xmlWriter.WriteEndElement();
+                    xmlWriter.WriteEndDocument();
+                    xmlWriter.Flush();
+                    xmlWriter.Close();
+                }
+            }
+            catch (Exception) { }
         }
         public static int cmc_login(System.Collections.Specialized.StringDictionary args)
         {
