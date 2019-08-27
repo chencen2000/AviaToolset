@@ -155,10 +155,11 @@ namespace AviaToolset
                         {
                             error_code = 1;
                             string s = data["Grade"].ToString();
-                            xmlWriter.WriteElementString("grade", s);
-                            if (string.IsNullOrEmpty(s))
-                                s = "D";
-                            ini.WriteValue("device", "grade", s);
+                            string s1 = ini.GetString("override", "grade", s);
+                            xmlWriter.WriteElementString("grade", s1);
+                            if (string.IsNullOrEmpty(s1))
+                                s1 = "D";
+                            ini.WriteValue("device", "grade", s1);
                         }
                         else
                         {
