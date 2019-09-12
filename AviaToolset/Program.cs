@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace AviaToolset
 {
@@ -36,6 +37,10 @@ namespace AviaToolset
             {
                 ret = PrepareEnv.startup(_args.Parameters);
             }
+            else if (_args.IsParameterTrue("cleanEnv"))
+            {
+                //ret = PrepareEnv.startup(_args.Parameters);
+            }
             else if (_args.IsParameterTrue("oecontrol"))
             {
                 //OEControl.OE_App_3_0_2_0();
@@ -44,7 +49,7 @@ namespace AviaToolset
             }
             else
             {
-                //test();
+                test();
                 //OEControl.start();
             }
 
@@ -53,28 +58,36 @@ namespace AviaToolset
 
         static void test()
         {
-            Process p = null;
             try
             {
-                utility.IniFile config = new utility.IniFile(System.IO.Path.Combine(System.Environment.GetEnvironmentVariable("FDHOME"), "Avia", "AviaDevice.ini"));
-                string app = config.GetString("config", "ui", "");
-                if (System.IO.File.Exists(app))
+                string tool = @"C:\ProgramData\Futuredial\Avia\Evaoi_3.1.1.2\evaoi.xml";
+                if (System.IO.File.Exists(tool))
                 {
-                    p = new Process();
-                    p.StartInfo.FileName = app;
-                    p.StartInfo.UseShellExecute = true;
-                    p.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(app);
-                    p.Start();
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(tool);
+                    if (doc.DocumentElement != null)
+                    {
+                        string model_dir = doc?.DocumentElement?["system"]?["ModelDir"]?.InnerText;
+                        if (System.IO.Directory.Exists(model_dir))
+                        {
+
+                        }
+                        XmlNode n = doc.DocumentElement.SelectSingleNode("work_station/item[name='BACK']/system");
+                        if (n != null)
+                        {
+                            string s = n["PixelSize"]?.InnerText;
+                            float f;
+                            if (float.TryParse(s, out f))
+                            {
+
+                            }
+                        }
+                    }
                 }
             }
-            catch (Exception)
-            {
-                p = null;
-            }
-            if (p != null)
-            {
-                p.WaitForInputIdle();
-            }
+            catch (Exception) { }
+
+
         }
     }
 }
