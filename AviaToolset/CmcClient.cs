@@ -106,6 +106,11 @@ namespace AviaToolset
                 {
                     var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
                     data = jss.Deserialize<Dictionary<string, object>>(System.IO.File.ReadAllText(args["json"]));
+                    string imei = ini.GetString("device", "imei", "");
+                    if (!string.IsNullOrEmpty(imei))
+                    {
+                        data["Index"] = imei;
+                    }
                 }
                 catch (Exception ex)
                 {
