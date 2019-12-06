@@ -92,6 +92,92 @@ namespace AviaToolset
             Program.logIt($"sendTransactionToVerizon: -- ret={ret}");
             return ret;
         }
+        public static int sendTransaction_BZ(System.Collections.Specialized.StringDictionary args)
+        {
+            int ret = -1;
+            Program.logIt($"sendTransaction_BZ: ++ {args?["json"]}");
+            if (args.ContainsKey("json") && System.IO.File.Exists(args["json"]))
+            {
+                Dictionary<string, object> data = null;
+                try
+                {
+                    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+                    data = jss.Deserialize<Dictionary<string, object>>(System.IO.File.ReadAllText(args["json"]));
+                }
+                catch (Exception ex)
+                {
+                    Program.logIt($"sendTransaction: {ex.Message}");
+                    ret = 1;
+                }
+                // get data
+                string dir = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+                string tool = System.IO.Path.Combine(dir, "hydra", "hydraTransaction.exe");
+                utility.IniFile config = new utility.IniFile(System.IO.Path.Combine(dir, "config.ini"));
+                // generate xml
+                {
+                    XmlWriterSettings settings = new XmlWriterSettings();
+                    settings.Indent = true;
+                    using (XmlWriter xmlWriter = XmlWriter.Create(System.IO.Path.Combine(dir, "test.xml"), settings))
+                    {
+                        xmlWriter.WriteStartDocument();
+                        xmlWriter.WriteStartElement("TransLog");
+                        xmlWriter.WriteStartElement("FDEMT_TransactionRecord");
+                        xmlWriter.WriteElementString("company", config.GetString("config", "companyid", "9"));
+                        xmlWriter.WriteElementString("site", config.GetString("config", "siteid", "1"));
+                        xmlWriter.WriteElementString("operator", config.GetString("config", "userid", "144"));
+                        xmlWriter.WriteElementString("productid", config.GetString("config", "productid", "41"));
+                        xmlWriter.WriteElementString("solutionid", config.GetString("config", "solutionid", "34"));
+                        xmlWriter.WriteElementString("workstationName", System.Environment.MachineName);
+                        xmlWriter.WriteElementString("sourcePhoneID", "PST_APE_UNIVERSAL_USB_FD");
+                        xmlWriter.WriteElementString("sourceMake", "Apple");
+                        xmlWriter.WriteElementString("sourceModel", data.ContainsKey("ModelName") ? data["ModelName"].ToString() : "");
+                        xmlWriter.WriteElementString("esnNumber", data.ContainsKey("Index") ? data["Index"].ToString() : "1234567890");
+                        xmlWriter.WriteElementString("StartTime", data.ContainsKey("InspectionTime") ? data["InspectionTime"].ToString() : DateTime.Now.ToString("G"));
+                        xmlWriter.WriteElementString("CriteriaFileName", data.ContainsKey("CriteriaFileName") ? System.IO.Path.GetFileName(data["CriteriaFileName"].ToString()) : "");
+                        int error_code = 1;
+                        if (data.ContainsKey("Grade"))
+                        {
+                            error_code = 1;
+                            string s = data["Grade"].ToString();
+                            xmlWriter.WriteElementString("grade", s);
+                        }
+                        else
+                        {
+                            error_code = 0;
+                        }
+                        xmlWriter.WriteElementString("errorCode", error_code.ToString());
+                        xmlWriter.WriteElementString("timeCreated", DateTime.Now.ToString("G"));
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteEndDocument();
+                        xmlWriter.Flush();
+                        xmlWriter.Close();
+                    }
+                }
+                try
+                {
+                    Process p = new Process();
+                    p.StartInfo.FileName = tool;
+                    p.StartInfo.Arguments = $"-add -config={config.Path} -xml=test.xml";
+                    p.StartInfo.WorkingDirectory = dir;
+                    p.StartInfo.CreateNoWindow = true;
+                    p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    p.Start();
+                    p.WaitForExit();
+                    ret = 0;
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+            else
+            {
+                Program.logIt("ERROR: Missing json file.");
+            }    
+            Program.logIt($"sendTransaction_BZ: -- ret={ret}");
+            return ret;
+        }
         public static int sendTransaction(System.Collections.Specialized.StringDictionary args)
         {
             int ret = -1;
