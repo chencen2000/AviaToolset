@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -147,6 +148,23 @@ namespace AviaToolset
                         }
                         xmlWriter.WriteElementString("errorCode", error_code.ToString());
                         xmlWriter.WriteElementString("timeCreated", DateTime.Now.ToString("G"));
+                        // prepare -Grade=Standard/FD Rule Base/FD AI/Final Grade
+                        if (args.ContainsKey("grade") && !string.IsNullOrEmpty(args["grade"]))
+                        {
+                            Regex r = new Regex(@"^(.*)\/(.*)\/(.*)\/(.*)$");
+                            Match m = r.Match(args["grade"]);
+                            if(m.Success && m.Groups.Count == 5)
+                            {
+                                if(!string.IsNullOrEmpty(m.Groups[1].Value))
+                                    xmlWriter.WriteElementString("verizon", m.Groups[1].Value);
+                                if (!string.IsNullOrEmpty(m.Groups[2].Value))
+                                    xmlWriter.WriteElementString("FDRulebase", m.Groups[2].Value);
+                                if (!string.IsNullOrEmpty(m.Groups[3].Value))
+                                    xmlWriter.WriteElementString("FDAI", m.Groups[3].Value);
+                                if (!string.IsNullOrEmpty(m.Groups[4].Value))
+                                    xmlWriter.WriteElementString("Final", m.Groups[4].Value);
+                            }
+                        }
                         xmlWriter.WriteEndElement();
                         xmlWriter.WriteEndElement();
                         xmlWriter.WriteEndDocument();
