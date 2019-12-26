@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -22,7 +23,47 @@ namespace ModelLookup
         {
             logIt($"cwd: {System.Environment.CurrentDirectory}");
             //apple_tac_upload();
-            dump_collection("CCTest");
+            //dump_collection("CCTest");
+            //upload_data();
+            util.check_imei("490154203237518");
+            //try
+            //{
+            //    string str = System.IO.File.ReadAllText("ready.json");
+            //    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            //    Dictionary<string, object>[] records = jss.Deserialize<Dictionary<string, object>[]>(str);
+            //    upload_data(records);
+            //}
+            //catch (Exception)
+            //{
+
+            //}
+        }
+        static void upload_data(Dictionary<string,object>[] records)
+        {
+            try
+            {
+                foreach (Dictionary<string, object> d in records)
+                {
+                    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+                    string s = jss.Serialize(d);
+                    try
+                    {
+                        WebClient wc = new WebClient();
+                        wc.Credentials = new NetworkCredential("cmc", "cmc1234!");
+                        wc.Headers.Add("Content-Type", "application/json");
+                        s = wc.UploadString("http://dc.futuredial.com/cmc/imei2model", s);
+                    }
+                    catch (Exception ex)
+                    {
+                        logIt(ex.Message);
+                    }
+                    //break;
+                }
+            }
+            catch (Exception)
+            {
+
+            }
         }
         static void dump_collection(string collectionName)
         {
