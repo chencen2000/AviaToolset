@@ -1,0 +1,19 @@
+﻿### list collections
+GET http://dc.futuredial.com/cmc HTTP/1.1
+Authorization: Basic cmc cmc1234!
+
+### get all documents in collect 'CCTest'
+GET http://dc.futuredial.com/cmc/CCTest?page=1&pagesize=1000 HTTP/1.1
+Authorization: Basic cmc cmc1234!
+
+### get document in pages
+GET http://dc.futuredial.com/cmc/CCTest?page=1&pagesize=1000 HTTP/1.1
+Authorization: Basic cmc cmc1234!
+
+### get count of collect CCTest
+GET http://dc.futuredial.com/cmc/CCTest/?pagesize=0&count HTTP/1.1
+Authorization: Basic cmc cmc1234!
+
+### get count of collect CCTest
+GET http://dc.futuredial.com/cmc/CCTest/?filter=%7B'uuid':'applemodelmapping'%7D HTTP/1.1
+Authorization: Basic cmc cmc1234!
