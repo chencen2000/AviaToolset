@@ -1,0 +1,38 @@
+﻿{
+  "GalaxyS7": [
+    "SM-G930F",
+    "SM-G930FD",
+    "SM-G930W8",
+    "SM-G930S",
+    "SM-G930K",
+    "SM-G930L",
+    "SM-G9300",
+    "SM-G9308",
+    "SM-G930U",
+    "SM-G930A",
+    "SM-G930V",
+    "SM-G930AZ",
+    "SM-G930P",
+    "SM-G930T",
+    "SM-G930R4",
+    "SM-G930R4"
+  ],
+  "GalaxyS7Edge": [
+    "SM-G935F",
+    "SM-G935FD",
+    "SM-G935W8",
+    "SM-G935S",
+    "SM-G935K",
+    "SM-G935L",
+    "SM-G9350",
+    "SM-G935V",
+    "SM-G935A",
+    "SM-G935P",
+    "SM-G935T",
+    "SM-G935U",
+    "SM-G935R4",
+    "SC-02H",
+    "SCV33"
+  ],
+  "GalaxyS7Active": [ "SM-G891A" ]
+}

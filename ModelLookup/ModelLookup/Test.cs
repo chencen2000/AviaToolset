@@ -17,7 +17,8 @@ namespace ModelLookup
         }
         static void Main(string[] args)
         {
-            test();
+            //test();
+            samsung_test1();
         }
         static void test()
         {
@@ -37,6 +38,10 @@ namespace ModelLookup
             //{
 
             //}
+        }
+        static void samsung_test1()
+        {
+
         }
         static void upload_data(Dictionary<string,object>[] records)
         {

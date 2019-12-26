@@ -3,19 +3,19 @@ GET http://dc.futuredial.com/cmc HTTP/1.1
 Authorization: Basic cmc cmc1234!
 
 ### get all documents in collect 'CCTest'
-GET http://dc.futuredial.com/cmc/CCTest?page=1&pagesize=1000 HTTP/1.1
+GET http://dc.futuredial.com/cmc/imei2model
 Authorization: Basic cmc cmc1234!
 
 ### get document in pages
-GET http://dc.futuredial.com/cmc/CCTest?page=1&pagesize=1000 HTTP/1.1
+GET http://dc.futuredial.com/cmc/imei2model?page=1&pagesize=5 HTTP/1.1
 Authorization: Basic cmc cmc1234!
 
 ### get count of collect CCTest
-GET http://dc.futuredial.com/cmc/CCTest/?pagesize=0&count HTTP/1.1
+GET http://dc.futuredial.com/cmc/imei2model/?pagesize=0&count
 Authorization: Basic cmc cmc1234!
 
 ### get count of collect CCTest
-GET http://dc.futuredial.com/cmc/CCTest/?filter=%7B'uuid':'35197606'%7D HTTP/1.1
+GET http://dc.futuredial.com/cmc/CCTest/?filter=%7B'uuid':'testuuid'%7D HTTP/1.1
 Authorization: Basic cmc cmc1234!
 
 ### delete a document
@@ -33,3 +33,18 @@ Content-Type: application/json
     "uuid": "testuuid",
     "key": "value"
 }
+
+### create a colloection in db
+PUT http://dc.futuredial.com/cmc/imei2model
+Authorization: Basic cmc cmc1234!
+Content-Type: application/json
+
+
+###
+GET http://dc.futuredial.com/cmc/CCTest/?pagesize=0&count
+Authorization: Basic cmc cmc1234!
+
+### 
+DELETE http://dc.futuredial.com/cmc/CCTest
+Authorization: Basic admin fd123!
+If-Match: 5e01b1cbb64757425d5ea8a6

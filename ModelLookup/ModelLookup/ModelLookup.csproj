@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ModelLookup.Program</StartupObject>
+    <StartupObject>ModelLookup.Test</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,6 +65,8 @@
     <None Include="data\iPhone_Model.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="data\samsung_bytac.json" />
+    <None Include="data\samsung_fromdb.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.txt" />
