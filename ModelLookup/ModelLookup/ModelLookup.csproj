@@ -65,8 +65,18 @@
     <None Include="data\iPhone_Model.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="data\samsung_bytac.json" />
-    <None Include="data\samsung_fromdb.json" />
+    <None Include="data\samsung_bytac.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="data\samsung_fromdb.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="data\Samsung_GalaxyS7.json" />
+    <None Include="data\Samsung_GalaxyS8.json" />
+    <None Include="data\Samsung_GalaxyS8Plus.json" />
+    <None Include="data\Samsung_GalaxyS9.json" />
+    <None Include="data\Samsung_GalaxyS9Plus.json" />
+    <None Include="data\samsung_model.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.txt" />
