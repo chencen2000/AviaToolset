@@ -18,8 +18,9 @@ namespace ModelLookup
         }
         static void Main(string[] args)
         {
-            //test();
-            samsung_test1();
+            test();
+            //samsung_test1();
+            //samsung_upload();
         }
         static void test()
         {
@@ -27,7 +28,7 @@ namespace ModelLookup
             //apple_tac_upload();
             //dump_collection("CCTest");
             //upload_data();
-            util.check_imei("490154203237518");
+            //util.check_imei("490154203237518");
             //try
             //{
             //    string str = System.IO.File.ReadAllText("ready.json");
@@ -39,14 +40,127 @@ namespace ModelLookup
             //{
 
             //}
+#if false
+            // download imei2model db
+            Tuple<bool, Dictionary<string, object>[], DateTime> res = getAllCollectDocuments("imei2model");
+            if (res.Item1)
+            {
+                Dictionary<string, object> d = new Dictionary<string, object>();
+                var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+                d.Add("lastmodified", res.Item3.ToString("s"));
+                d.Add("doc", res.Item2);
+                System.IO.File.WriteAllText("imei2model.json", jss.Serialize(d));
+            }
+#endif
+#if true
+            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            jss.MaxJsonLength = 20971520;
+            Dictionary<string, object> db = jss.Deserialize<Dictionary<string, object>>(System.IO.File.ReadAllText("imei2model.json"));
+            Dictionary<string, int> counts = new Dictionary<string, int>();
+            if (db.ContainsKey("doc"))
+            {
+                ArrayList al = (ArrayList)db["doc"];
+                foreach(Dictionary<string,object> r in al)
+                {
+                    if (r.ContainsKey("model") && r.ContainsKey("maker"))
+                    {
+                        string k = $"{r["maker"]}-{r["model"]}";
+                        if (counts.ContainsKey(k))
+                        {
+                            int i = counts[k];
+                            counts[k] = i + 1;
+                        }
+                        else
+                        {
+                            counts.Add(k, 1);
+                        }
+                    }
+                }
+            }
+            foreach(KeyValuePair<string,int> kvp in counts)
+            {
+                logIt($"{kvp.Key}: {kvp.Value}");
+            }
+#endif
+        }
+        static void upload_backlist()
+        {
+            string[] backlist = { "99000337",
+                                    "99000115",
+                                    "86127303",
+                                    "35990204",
+                                    "35939406",
+                                    "35894602",
+                                    "35585807",
+                                    "00499901"};
+            try
+            {
+
+            }
+            catch (Exception) { }
+
+
+        }
+        static void samsung_upload()
+        {
+            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            ArrayList records = jss.Deserialize<ArrayList>(System.IO.File.ReadAllText("Samsung_GalaxyS6Edge.json"));
+            foreach(Dictionary<string,object> r in records)
+            {
+                if (r.ContainsKey("uuid"))
+                {
+                    string str = r["uuid"].ToString();
+                    int count = 0;
+                    try
+                    {
+                        NameValueCollection q = new NameValueCollection();
+                        q.Add("filter", $"{{\"uuid\": \"{str}\"}}");
+                        WebClient wc = new WebClient();
+                        wc.Credentials = new NetworkCredential("cmc", "cmc1234!");
+                        wc.Headers.Add("Content-Type", "application/json");
+                        wc.QueryString = q;
+                        string s = wc.DownloadString($"http://dc.futuredial.com/cmc/imei2model");
+                        if (!string.IsNullOrEmpty(s))
+                        {
+                            Dictionary<string, object> res = jss.Deserialize<Dictionary<string, object>>(s);
+                            if (res.ContainsKey("_returned") && res["_returned"].GetType() == typeof(int))
+                                count = (int)res["_returned"];
+                            if (count > 0)
+                            {
+                                logIt("=========================");
+                                logIt($"{str} duplicated!!");
+                                logIt(s);
+                                logIt("=========================");
+                            }
+                        }
+                    }
+                    catch (Exception) { }
+
+                    if (count == 0)
+                    {
+                        str = jss.Serialize(r);
+                        try
+                        {
+                            WebClient wc = new WebClient();
+                            wc.Credentials = new NetworkCredential("cmc", "cmc1234!");
+                            wc.Headers.Add("Content-Type", "application/json");
+                            str = wc.UploadString("http://dc.futuredial.com/cmc/imei2model", str);
+                        }
+                        catch (Exception ex)
+                        {
+                            logIt(ex.Message);
+                        }
+                    }
+                }
+            }
         }
         static void samsung_test1()
         {
             var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             string str;
-            Regex reg = new Regex(@"SM-G970");
+            Regex reg = new Regex(@"SM-G925");
             string target_ret_maker = "Samsung";
-            string target_ret_model = "GalaxyS10e";
+            string target_ret_model = "GalaxyS6Edge";
 
             List<Dictionary<string, object>> target_model = new List<Dictionary<string, object>>();
             // first step: all target model to a list.
@@ -164,18 +278,19 @@ namespace ModelLookup
 
             }
         }
-        static void dump_collection(string collectionName)
+        //static void dump_collection(string collectionName)
+        //{
+        //    Tuple<bool, int, DateTime> col_cnt = getCollectionCount(collectionName);
+        //    Tuple<bool, Dictionary<string, object>[]> records = getAllCollectDocuments(collectionName, 1000);
+        //    Dictionary<string, object> local_data = new Dictionary<string, object>();
+        //    local_data.Add("lastmodify", col_cnt.Item3.ToString("s"));
+        //    local_data.Add("doc", records.Item2);
+        //    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+        //    System.IO.File.WriteAllText("test.json", jss.Serialize(local_data));
+        //}
+        static Tuple<bool, Dictionary<string,object>[], DateTime> getAllCollectDocuments(string collectionName, int size = 1000)
         {
-            Tuple<bool, int, DateTime> col_cnt = getCollectionCount(collectionName);
-            Tuple<bool, Dictionary<string, object>[]> records = getAllCollectDocuments(collectionName, 1000);
-            Dictionary<string, object> local_data = new Dictionary<string, object>();
-            local_data.Add("lastmodify", col_cnt.Item3.ToString("s"));
-            local_data.Add("doc", records.Item2);
-            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
-            System.IO.File.WriteAllText("test.json", jss.Serialize(local_data));
-        }
-        static Tuple<bool, Dictionary<string,object>[]> getAllCollectDocuments(string collectionName, int size = 1000)
-        {
+            DateTime retT = DateTime.MinValue;
             bool ret = false;
             System.Collections.ArrayList retList = new System.Collections.ArrayList();
             try
@@ -195,7 +310,13 @@ namespace ModelLookup
                     {
                         var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
                         Dictionary<string, object> data = jss.Deserialize<Dictionary<string, object>>(s);
-                        if(data.ContainsKey("_returned") && data["_returned"].GetType()==typeof(int))
+                        if (DateTime.MinValue==retT && data.ContainsKey("_lastupdated_on") && data["_lastupdated_on"].GetType() == typeof(string))
+                        {
+                            DateTime t;
+                            if (DateTime.TryParse(data["_lastupdated_on"].ToString(), out t))
+                                retT = t;
+                        }                           
+                        if (data.ContainsKey("_returned") && data["_returned"].GetType()==typeof(int))
                         {
                             int i = (int)data["_returned"];
                             if (i == 0) ret = true;
@@ -217,7 +338,7 @@ namespace ModelLookup
                 }
             }
             catch (Exception) { }
-            return new Tuple<bool, Dictionary<string, object>[]>(ret, (Dictionary<string, object>[])retList.ToArray(typeof(Dictionary<string, object>)));
+            return new Tuple<bool, Dictionary<string, object>[], DateTime>(ret, (Dictionary<string, object>[])retList.ToArray(typeof(Dictionary<string, object>)), retT);
         }
         static Tuple<bool,int,DateTime> getCollectionCount(string collectionName)
         {

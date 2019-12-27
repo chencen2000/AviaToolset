@@ -15,7 +15,12 @@ GET http://dc.futuredial.com/cmc/imei2model/?pagesize=0&count
 Authorization: Basic cmc cmc1234!
 
 ### get count of collect CCTest
-GET http://dc.futuredial.com/cmc/CCTest/?filter=%7B'uuid':'testuuid'%7D HTTP/1.1
+GET http://dc.futuredial.com/cmc/imei2model/?filter=%7B'uuid':'99000697'%7D HTTP/1.1
+Authorization: Basic cmc cmc1234!
+
+### get count of collect CCTest
+GET http://dc.futuredial.com/cmc/imei2model/
+    ?filter={"uuid":"99000697"}
 Authorization: Basic cmc cmc1234!
 
 ### delete a document

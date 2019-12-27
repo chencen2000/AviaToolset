@@ -17,3 +17,5 @@ error:
 1: error, missing imei
 2: error, The IMEI ({imei}) format incorrect.
 3: error, imie not found in table.
+4: error, local DB not ready. please lookup late.
+5: error, the IMEI, TAC is in the blacklist.
