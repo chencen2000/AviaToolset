@@ -6,10 +6,5 @@
         xmlns:local="clr-namespace:AviaSetup"
         mc:Ignorable="d"
         Title="SMART Grade Setup" Height="305.904" Width="683.274" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Label Content="Serial No:" HorizontalAlignment="Left" Margin="61,114,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tbSerialNo" HorizontalAlignment="Left" Height="23" Margin="127,117,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="361"/>
-        <Button Content="OK" HorizontalAlignment="Left" Margin="521,116,0,0" VerticalAlignment="Top" Width="75" IsDefault="True" Click="Button_Click"/>
-
-    </Grid>
+    <Grid/>
 </Window>
