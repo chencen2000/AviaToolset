@@ -1,0 +1,30 @@
+{
+    "lg":
+        {
+            "V40": ["lm-v405"],
+            "V50": ["lm-v500"],
+            "G8":["LM-G820"],
+            "G7":["LM-G710"],
+            "Stylo5":["LM-Q720"]
+        },
+    "motorola":{
+        "Z4": ["moto z4"],
+        "Z3": ["moto z3"],
+        "G4": ["moto g(4)"],
+        "G5": ["moto g(5)"],
+        "G6": ["moto g(6)"],
+        "G7": ["moto g(7)"]
+    },
+    "google":{
+        "Pixel": ["Pixel"],
+        "PixelXL": ["Pixel XL"],
+        "Pixel2": ["Pixel 2"],
+        "Pixel2XL": ["Pixel 2 XL"],
+        "Pixel3": ["Pixel 3"],
+        "Pixel3XL": ["Pixel 3 XL"],
+        "Pixel3a": ["Pixel 3a"],
+        "Pixel3aXL": ["Pixel 3a XL"],
+        "Pixel4": ["Pixel 4"],
+        "Pixel4XL": ["Pixel 4 XL"]
+    }
+}

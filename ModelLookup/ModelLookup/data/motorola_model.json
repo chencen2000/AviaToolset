@@ -1,0 +1,31 @@
+{
+    "Z3":[
+        {
+            "uuid": "35555009",
+            "maker": "Motorola",
+            "model": "Z3"
+        }
+    ],
+    "Z4":[
+        {
+            "uuid": "35215710",
+            "maker": "Motorola",
+            "model": "Z4"
+        }
+    ],
+    "G4":[],
+    "G5":[],
+    "G6":[
+        {
+            "uuid": "35184909",
+            "maker": "Motorola",
+            "model": "G6"
+        },
+        {
+            "uuid": "35188409",
+            "maker": "Motorola",
+            "model": "G6"
+        }
+    ],
+    "G7":[]
+}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -18,9 +19,72 @@ namespace ModelLookup
         }
         static void Main(string[] args)
         {
-            test();
+            //loadDataFromSql();
+            //test();
             //samsung_test1();
             //samsung_upload();
+            load_data();
+        }
+        static void load_data()
+        {
+            ArrayList records = null;
+            try
+            {
+                var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+                jss.MaxJsonLength = 20971520;
+                string s = System.IO.File.ReadAllText(@"data\all_data.json");
+                records = jss.Deserialize<ArrayList>(s);
+            }
+            catch (Exception) { }
+            if (records != null)
+            {
+                try
+                {
+
+                }
+                catch (Exception) { }
+            }
+        }
+        static void loadDataFromSql()
+        {
+            string cs = @"server=10.1.1.155;user=fdimei;database=imeidb;port=3306;password=futuredia1$";
+            var con = new MySqlConnection(cs);
+            con.Open();
+            var stm = "SELECT VERSION()";
+            var cmd = new MySqlCommand(stm, con);
+            var version = cmd.ExecuteScalar().ToString();
+            logIt($"MySQL version: {version}");
+            
+            string sql = "SELECT * FROM tactomodel";
+            cmd = new MySqlCommand(sql, con);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            //Dictionary<int, string> fields = new Dictionary<int, string>();
+            //for(int i=0; i<rdr.FieldCount; i++)
+            //{
+            //    fields.Add(i, rdr.GetName(i));
+            //}
+            List<Dictionary<string, object>> records = new List<Dictionary<string, object>>();
+            while (rdr.Read())
+            {
+                Dictionary<string, object> r = new Dictionary<string, object>();
+                for (int i = 0; i < rdr.FieldCount; i++)
+                {
+                    string k = rdr.GetName(i);
+                    r.Add(k, rdr[i]);
+                    //fields.Add(i, rdr.GetName(i));
+                }
+                records.Add(r);
+            }
+            con.Close();
+
+            try
+            {
+                var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+                jss.MaxJsonLength = 20971520;
+                string s = jss.Serialize(records);
+                System.IO.File.WriteAllText("all_data.json", s);
+            }
+            catch (Exception) { }
         }
         static void test()
         {

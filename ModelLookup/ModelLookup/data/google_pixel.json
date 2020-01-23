@@ -1,0 +1,232 @@
+{
+    "Pixel":[
+        {
+            "uuid": "35161508",
+            "maker": "Google",
+            "model": "Pixel"
+        },
+        {
+            "uuid": "35267808",
+            "maker": "Google",
+            "model": "Pixel"
+        },
+        {
+            "uuid": "35268908",
+            "maker": "Google",
+            "model": "Pixel"
+        },
+        {
+            "uuid": "35253108",
+            "maker": "Google",
+            "model": "Pixel"
+        }
+    ],
+    "PixelXL":[
+        {
+            "uuid": "35253008",
+            "maker": "Google",
+            "model": "Pixel XL"
+        },
+        {
+            "uuid": "35267708",
+            "maker": "Google",
+            "model": "Pixel XL"
+        },
+        {
+            "uuid": "35990607",
+            "maker": "Google",
+            "model": "Pixel XL"
+        },
+        {
+            "uuid": "35989107",
+            "maker": "Google",
+            "model": "Pixel XL"
+        },
+        {
+            "uuid": "35269308",
+            "maker": "Google",
+            "model": "Pixel XL"
+        }
+    ],
+    "Pixel2": [
+        {
+            "uuid": "35753608",
+            "maker": "Google",
+            "model": "Pixel 2"
+        },
+        {
+            "uuid": "35753708",
+            "maker": "Google",
+            "model": "Pixel 2"
+        },
+        {
+            "uuid": "35753808",
+            "maker": "Google",
+            "model": "Pixel 2"
+        }
+    ],
+    "Pixel2XL": [
+        {
+            "uuid": "35803408",
+            "maker": "Google",
+            "model": "Pixel 2 XL"
+        },
+        {
+            "uuid": "35803508",
+            "maker": "Google",
+            "model": "Pixel 2 XL"
+        },
+        {
+            "uuid": "35803608",
+            "maker": "Google",
+            "model": "Pixel 2 XL"
+        },
+        {
+            "uuid": "35803509",
+            "maker": "Google",
+            "model": "Pixel 2 XL"
+        }
+    ],
+    "Pixel3": [
+        {
+            "uuid": "35669110",
+            "maker": "Google",
+            "model": "Pixel 3"
+        },
+        {
+            "uuid": "35827509",
+            "maker": "Google",
+            "model": "Pixel 3"
+        },
+        {
+            "uuid": "35827709",
+            "maker": "Google",
+            "model": "Pixel 3"
+        },
+        {
+            "uuid": "99001200",
+            "maker": "Google",
+            "model": "Pixel 3"
+        },
+        {
+            "uuid": "35827609",
+            "maker": "Google",
+            "model": "Pixel 3"
+        }
+    ],
+    "Pixel3XL": [
+        {
+            "uuid": "35669210",
+            "maker": "Google",
+            "model": "Pixel 3 XL"
+        },
+        {
+            "uuid": "35832609",
+            "maker": "Google",
+            "model": "Pixel 3 XL"
+        },
+        {
+            "uuid": "35832709",
+            "maker": "Google",
+            "model": "Pixel 3 XL"
+        },
+        {
+            "uuid": "35832809",
+            "maker": "Google",
+            "model": "Pixel 3 XL"
+        },
+        {
+            "uuid": "99001201",
+            "maker": "Google",
+            "model": "Pixel 3 XL"
+        }
+    ],
+    "Pixel3a": [
+        {
+            "uuid": "35511610",
+            "maker": "Google",
+            "model": "Pixel 3a"
+        }, 
+        {
+            "uuid": "35965009",
+            "maker": "Google",
+            "model": "Pixel 3a"
+        }, 
+        {
+            "uuid": "35967709",
+            "maker": "Google",
+            "model": "Pixel 3a"
+        }, 
+        {
+            "uuid": "35611210",
+            "maker": "Google",
+            "model": "Pixel 3a"
+        }
+    ],
+    "Pixel3aXL": [
+        {
+            "uuid": "35511510",
+            "maker": "Google",
+            "model": "Pixel 3a XL"
+        },
+        {
+            "uuid": "35611410",
+            "maker": "Google",
+            "model": "Pixel 3a XL"
+        },
+        {
+            "uuid": "35964309",
+            "maker": "Google",
+            "model": "Pixel 3a XL"
+        },
+        {
+            "uuid": "35964809",
+            "maker": "Google",
+            "model": "Pixel 3a XL"
+        }
+    ],
+    "Pixel4": [
+        {
+            "uuid": "35293110",
+            "maker": "Google",
+            "model": "Pixel 4"
+        },
+        {
+            "uuid": "35293210",
+            "maker": "Google",
+            "model": "Pixel 4"
+        },
+        {
+            "uuid": "35673010",
+            "maker": "Google",
+            "model": "Pixel 4"
+        },
+        {
+            "uuid": "35673110",
+            "maker": "Google",
+            "model": "Pixel 4"
+        },
+        {
+            "uuid": "35921910",
+            "maker": "Google",
+            "model": "Pixel 4"
+        }
+    ],
+    "Pixel4XL": [
+        {
+            "uuid": "35285810",
+            "maker": "Google",
+            "model": "Pixel 4 XL"
+        },
+        {
+            "uuid": "35922010",
+            "maker": "Google",
+            "model": "Pixel 4 XL"
+        },
+        {
+            "uuid": "35672710",
+            "maker": "Google",
+            "model": "Pixel 4 XL"
+        }
+    ]
+}

@@ -1,0 +1,127 @@
+{
+    "V40":[
+        {
+            "uuid": "35958109",
+            "maker": "LG",
+            "model": "V40"
+        },
+        {
+            "uuid": "35958209",
+            "maker": "LG",
+            "model": "V40"
+        },
+        {
+            "uuid": "35959909",
+            "maker": "LG",
+            "model": "V40"
+        },
+        {
+            "uuid": "35958309",
+            "maker": "LG",
+            "model": "V40"
+        }
+    ],
+    "V50": [
+        {
+            "uuid": "35338110",
+            "maker": "LG",
+            "model": "V50"
+        },
+        {
+            "uuid": "35338210",
+            "maker": "LG",
+            "model": "V50"
+        }
+    ],
+    "G7": [
+        {
+            "uuid": "35499109",
+            "maker": "LG",
+            "model": "G7"
+        },
+        {
+            "uuid": "35593309",
+            "maker": "LG",
+            "model": "G7"
+        },
+        {
+            "uuid": "35815909",
+            "maker": "LG",
+            "model": "G7"
+        },
+        {
+            "uuid": "35578909",
+            "maker": "LG",
+            "model": "G7"
+        }
+    ],
+    "G8": [
+        {
+            "uuid": "35375210",
+            "maker": "LG",
+            "model": "G8"
+        },
+        {
+            "uuid": "35381610",
+            "maker": "LG",
+            "model": "G8"
+        },
+        {
+            "uuid": "35381710",
+            "maker": "LG",
+            "model": "G8"
+        },
+        {
+            "uuid": "35596510",
+            "maker": "LG",
+            "model": "G8"
+        },
+        {
+            "uuid": "35605910",
+            "maker": "LG",
+            "model": "G8"
+        },
+        {
+            "uuid": "35825510",
+            "maker": "LG",
+            "model": "G8"
+        },
+        {
+            "uuid": "35381510",
+            "maker": "LG",
+            "model": "G8"
+        }
+    ],
+    "Stylo5": [
+        {
+            "uuid": "35556510",
+            "maker": "LG",
+            "model": "Stylo5"
+        },
+        {
+            "uuid": "35609510",
+            "maker": "LG",
+            "model": "Stylo5"
+        },
+        {
+            "uuid": "35677110",
+            "maker": "LG",
+            "model": "Stylo5"
+        },
+        {
+            "uuid": "35792410",
+            "maker": "LG",
+            "model": "Stylo5"
+        },
+        {
+            "uuid": "35959110",
+            "maker": "LG",
+            "model": "Stylo5"
+        },
+        {
+            "uuid": "35628410",
+            "maker": "LG",
+            "model": "Stylo5"
+        } 
+    ]
+}
