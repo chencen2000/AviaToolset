@@ -23,7 +23,8 @@ namespace ModelLookup
             //test();
             //samsung_test1();
             //samsung_upload();
-            load_data();
+            //load_data();
+            //upload_tac();
         }
         static void load_data()
         {
@@ -471,6 +472,72 @@ namespace ModelLookup
                     logIt(ex.Message);
                 }
                 //break;
+            }
+        }
+        static void upload_tac()
+        {
+            string data_dir = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.Environment.CurrentDirectory));
+            string[] ready_to_upload = { "google_pixel.json", "LG_models.json", "motorola_model.json" };
+            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            foreach (string fn in ready_to_upload)
+            {
+                string s = System.IO.Path.Combine(data_dir, "data", fn);
+                if (System.IO.File.Exists(s))
+                {
+                    Dictionary<string, object> data = jss.Deserialize<Dictionary<string, object>>(System.IO.File.ReadAllText(s));
+                    foreach(KeyValuePair<string,object> kvp in data)
+                    {
+                        ArrayList al = (ArrayList)kvp.Value;
+                        foreach(Dictionary<string,object> r in al)
+                        {
+                            if (r.ContainsKey("uuid"))
+                            {
+                                s = r["uuid"].ToString();
+                                int count = 0;
+                                try
+                                {
+                                    NameValueCollection q = new NameValueCollection();
+                                    q.Add("filter", $"{{\"uuid\": \"{s}\"}}");
+                                    WebClient wc = new WebClient();
+                                    wc.Credentials = new NetworkCredential("cmc", "cmc1234!");
+                                    wc.Headers.Add("Content-Type", "application/json");
+                                    wc.QueryString = q;
+                                    s = wc.DownloadString($"http://dc.futuredial.com/cmc/imei2model");
+                                    if (!string.IsNullOrEmpty(s))
+                                    {
+                                        Dictionary<string, object> res = jss.Deserialize<Dictionary<string, object>>(s);
+                                        if (res.ContainsKey("_returned") && res["_returned"].GetType() == typeof(int))
+                                            count = (int)res["_returned"];
+                                        if (count > 0)
+                                        {
+                                            logIt("=========================");
+                                            logIt($"{r["uuid"]} duplicated!!");
+                                            logIt(s);
+                                            logIt("=========================");
+                                        }
+                                        else
+                                        {
+                                            // add
+                                            s = jss.Serialize(r);
+                                            try
+                                            {
+                                                WebClient wc1 = new WebClient();
+                                                wc1.Credentials = new NetworkCredential("cmc", "cmc1234!");
+                                                wc1.Headers.Add("Content-Type", "application/json");
+                                                s = wc1.UploadString("http://dc.futuredial.com/cmc/imei2model", s);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                logIt(ex.Message);
+                                            }
+                                        }
+                                    }
+                                }
+                                catch (Exception) { }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

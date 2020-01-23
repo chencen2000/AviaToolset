@@ -13,8 +13,6 @@
             "model": "Z4"
         }
     ],
-    "G4":[],
-    "G5":[],
     "G6":[
         {
             "uuid": "35184909",
@@ -27,5 +25,33 @@
             "model": "G6"
         }
     ],
-    "G7":[]
+    "G7Power":[
+        {
+            "uuid": "35952509",
+            "maker": "Motorola",
+            "model": "G7Power"
+        },
+        {
+            "uuid": "35952709",
+            "maker": "Motorola",
+            "model": "G7Power"
+        },
+        {
+            "uuid": "35952809",
+            "maker": "Motorola",
+            "model": "G7Power"
+        },
+        {
+            "uuid": "35953109",
+            "maker": "Motorola",
+            "model": "G7Power"
+        }
+    ],
+    "G7Play":[
+        {
+            "uuid": "35951209",
+            "maker": "Motorola",
+            "model": "G7Play"
+        }
+    ]
 }
