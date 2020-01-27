@@ -1,0 +1,2 @@
+make installer
+pyinstaller --hidden-import="sklearn.neighbors._typedefs" --hidden-import="sklearn.utils._cython_blas" --path C:\projects\github\repos\AviaToolset\ColorDetection\venv\Lib\site-packages\sklearn\.libs getColor.py
