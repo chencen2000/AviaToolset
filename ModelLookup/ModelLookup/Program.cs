@@ -46,7 +46,7 @@ namespace ModelLookup
                 if (own)
                 {
                     // download db
-                    Task.Run(() => download_imei2model());
+                    //Task.Run(() => download_imei2model());
                     start(evt);
                 }
                 else
@@ -121,6 +121,7 @@ namespace ModelLookup
                 svcHost.AddServiceEndpoint(typeof(IModelLookupWebService), b, "");
                 logIt("WebService is running");
                 svcHost.Open();
+                download_imei2model();
                 loadDB();
                 quit.WaitOne();
                 //System.Console.WriteLine("Press any key to stop.");
@@ -212,6 +213,10 @@ namespace ModelLookup
                                     ret2 = r["model"].ToString();
                                     ret = 0;
                                     msg = $"imie={imei} lookup complete.";
+                                    // model name mapping
+                                    Tuple<string, string> mm = mappingModelByMaker(ret1, ret2);
+                                    ret1 = mm.Item1;
+                                    ret2 = mm.Item2;
                                     break;
                                 }
                             }
@@ -230,6 +235,18 @@ namespace ModelLookup
                 }
             }
             return new Tuple<int, string, string, string>(ret, ret1, ret2,msg);
+        }
+        static Tuple<string,string> mappingModelByMaker(string maker, string model)
+        {
+            string ret1 = maker;
+            string ret2 = model;
+            string fn = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName), "mappingModel.ini");
+            if (System.IO.File.Exists(fn))
+            {
+                utility.IniFile ini = new utility.IniFile(fn);
+                ret2 = ini.GetString(maker, model, model);
+            }
+            return new Tuple<string, string>(ret1, ret2);
         }
         static void download_imei2model()
         {

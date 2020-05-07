@@ -20,11 +20,29 @@ namespace ModelLookup
         static void Main(string[] args)
         {
             //loadDataFromSql();
-            //test();
+            test();
             //samsung_test1();
             //samsung_upload();
             //load_data();
             //upload_tac();
+            //save_data();
+        }
+        static void save_data()
+        {
+            List<Dictionary<string, object>> apple_tacs = new List<Dictionary<string, object>>();
+            Tuple<bool, Dictionary<string, object>[], DateTime> docs = getAllCollectDocuments("imei2model");
+            if (docs.Item1)
+            {
+                try
+                {
+                    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+                    jss.MaxJsonLength = 20971520;
+                    StringBuilder sb = new StringBuilder();
+                    jss.Serialize(docs.Item2, sb);
+                    System.IO.File.WriteAllText("imei2model.json", sb.ToString());
+                }
+                catch (Exception) { }
+            }
         }
         static void load_data()
         {
@@ -90,6 +108,8 @@ namespace ModelLookup
         static void test()
         {
             logIt($"cwd: {System.Environment.CurrentDirectory}");
+            utility.IniFile ini = new utility.IniFile("data\\iPhone_Model.ini");
+            string[] keys = ini.GetKeyNames("Apple");
             //apple_tac_upload();
             //dump_collection("CCTest");
             //upload_data();
@@ -117,7 +137,7 @@ namespace ModelLookup
                 System.IO.File.WriteAllText("imei2model.json", jss.Serialize(d));
             }
 #endif
-#if true
+#if false
             var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             jss.MaxJsonLength = 20971520;
             Dictionary<string, object> db = jss.Deserialize<Dictionary<string, object>>(System.IO.File.ReadAllText("imei2model.json"));
