@@ -90,6 +90,7 @@
     <None Include="data\iPhone_Model.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="data\mappingModel.ini" />
     <None Include="data\samsung_bytac.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
